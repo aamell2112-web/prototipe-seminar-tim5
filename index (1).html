@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="id"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Prototipe Pendaftaran Seminar</title>
+<style>
+:root{--bg:#F2F6F6;--sf:#fff;--tx:#14262B;--mu:#5A6E73;--pr:#0E6B6B;--pt:#fff;--ln:#D3DEDF;--ok:#1B7F4B;--wn:#B26A00;--er:#B3261E;--sl:#E4EEEE;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0F1A1D;--sf:#172428;--tx:#E6F0F0;--mu:#9DB2B6;--pr:#4FC0BC;--pt:#08201F;--ln:#2B3E43;--ok:#5ED394;--wn:#F0B25A;--er:#FF8A80;--sl:#1F3136;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0F1A1D;--sf:#172428;--tx:#E6F0F0;--mu:#9DB2B6;--pr:#4FC0BC;--pt:#08201F;--ln:#2B3E43;--ok:#5ED394;--wn:#F0B25A;--er:#FF8A80;--sl:#1F3136;color-scheme:dark}
+html,body{margin:0}body{background:var(--bg);color:var(--tx);font:15px/1.5 "Segoe UI",system-ui,-apple-system,Roboto,sans-serif}
+header{background:var(--sf);border-bottom:1px solid var(--ln);position:sticky;top:env(safe-area-inset-top,0px);z-index:5}
+.bar{max-width:880px;margin:auto;padding:10px 16px;display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.brand{font-weight:700;font-size:16px}.brand small{display:block;font-weight:400;color:var(--mu);font-size:12px}
+.seg{display:flex;border:1px solid var(--ln);border-radius:8px;overflow:hidden}
+.seg button{border:0;background:none;color:var(--tx);padding:7px 14px;font:inherit;cursor:pointer}
+.seg button.on{background:var(--pr);color:var(--pt)}
+main{max-width:880px;margin:auto;padding:18px 16px 40px}
+h1{font-size:22px;margin:4px 0 6px}h2{font-size:17px;margin:0 0 10px}
+.card{background:var(--sf);border:1px solid var(--ln);border-radius:10px;padding:16px;margin-bottom:14px}
+.mu{color:var(--mu)}.row{display:flex;gap:10px;flex-wrap:wrap}
+label{display:block;font-weight:600;margin:10px 0 4px}
+input,select{width:100%;font:inherit;padding:9px 10px;border:1px solid var(--ln);border-radius:8px;background:var(--bg);color:var(--tx)}
+input:focus,button:focus-visible,select:focus{outline:2px solid var(--pr);outline-offset:1px}
+.btn{background:var(--pr);color:var(--pt);border:0;border-radius:8px;padding:10px 16px;font:inherit;font-weight:600;cursor:pointer}
+.btn.sec{background:var(--sl);color:var(--tx)}.btn:disabled{opacity:.45;cursor:not-allowed}
+.err{color:var(--er);font-size:13px;margin-top:4px}.msg{padding:10px 12px;border-radius:8px;margin:10px 0;background:var(--sl)}
+.msg.er{border-left:4px solid var(--er)}.msg.ok{border-left:4px solid var(--ok)}.msg.wn{border-left:4px solid var(--wn)}
+.badge{display:inline-block;padding:2px 10px;border-radius:99px;font-size:12.5px;font-weight:600;background:var(--sl)}
+.b-Terdaftar{color:var(--pr)}.b-Hadir{color:var(--ok)}.b-Tunggu{color:var(--wn)}
+table{width:100%;border-collapse:collapse;font-size:14px}th,td{text-align:left;padding:8px 6px;border-bottom:1px solid var(--ln)}
+.wrap{overflow-x:auto}.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin-bottom:14px}
+.stat{background:var(--sf);border:1px solid var(--ln);border-radius:10px;padding:12px}.stat b{font-size:24px;display:block}
+.steps{display:flex;gap:6px;margin:12px 0}.steps div{flex:1;text-align:center;padding:8px 4px;border-radius:8px;background:var(--sl);color:var(--mu);font-size:13px}
+.steps div.on{background:var(--pr);color:var(--pt);font-weight:600}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}.tabs button{border:1px solid var(--ln);background:var(--sf);color:var(--tx);border-radius:8px;padding:7px 12px;font:inherit;cursor:pointer}
+.tabs button.on{background:var(--pr);color:var(--pt);border-color:var(--pr)}
+.qr{width:150px;height:150px;background:#fff;padding:8px;border-radius:8px;border:1px solid var(--ln)}
+.cert{border:3px double var(--pr);padding:18px;text-align:center;border-radius:6px;background:var(--sf)}
+.note{font-size:12.5px;color:var(--mu);margin-top:18px}
+</style></head><body>
+<header><div class="bar"><div class="brand">Seminar Kampus<small>Prototipe tugas Pertemuan 14, data contoh</small></div>
+<div class="seg" role="group" aria-label="Pilih peran tampilan"><button id="m-p" class="on">Peserta</button><button id="m-k">Panitia</button></div></div></header>
+<main id="app"></main>
+<script>
+var SEM={nama:"Seminar Literasi Digital Mahasiswa",tgl:"Sabtu, 12 Desember 2026, 09.00 WITA",lok:"Aula Gedung Rektorat",kuota:6};
+var DB={ps:[
+{id:"PSR-001",nama:"Harmiani",surel:"harmiani@contoh.ac.id",hp:"081234560001",inst:"H0724526",st:"Terdaftar",sert:null},
+{id:"PSR-002",nama:"Amel Kalimbuang",surel:"amel@contoh.ac.id",hp:"081234560002",inst:"H0724524",st:"Hadir",sert:null},
+{id:"PSR-003",nama:"Sultan Al Farezi",surel:"sultan@contoh.ac.id",hp:"081234560003",inst:"H0724514",st:"Hadir",sert:null},
+{id:"PSR-004",nama:"Sahrul",surel:"sahrul@contoh.ac.id",hp:"081234560004",inst:"H0724520",st:"Terdaftar",sert:null}],
+tmpl:false,issued:false};
+var mode="p",view="home",role=null,tab="rekap",cur=null,out="";
+var $=function(s){return document.querySelector(s)};
+function e(s){return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+function terisi(){return DB.ps.filter(function(p){return p.st!=="Tunggu"}).length}
+function badge(s){return '<span class="badge b-'+s+'">'+(s==="Tunggu"?"Daftar tunggu":s)+'</span>'}
+function qr(id){var h=0,i,x,y,r='';for(i=0;i<id.length;i++)h=(h*31+id.charCodeAt(i))>>>0;
+for(y=0;y<21;y++)for(x=0;x<21;x++){var f=(x<7&&y<7)||(x>13&&y<7)||(x<7&&y>13);
+var on=f?(x%6===0||y%6===0||x%6===6||(x%6>1&&x%6<5&&y%6>1&&y%6<5)||x===20||y===20)&&!((x<7&&y<7&&(x===1||x===5||y===1||y===5)&&x>0&&x<6&&y>0&&y<6)):((h=(h*1103515245+12345)>>>0)%100<48);
+if(on)r+='<rect x="'+x+'" y="'+y+'" width="1" height="1"/>'}
+return '<svg class="qr" viewBox="0 0 21 21" role="img" aria-label="Kode QR '+id+'" fill="#111" shape-rendering="crispEdges">'+r+'</svg>'}
+function go(v){view=v;out="";draw()}
+function home(){var sisa=SEM.kuota-terisi();
+return '<div class="card"><h1>'+SEM.nama+'</h1><p class="mu">'+SEM.tgl+'<br>'+SEM.lok+'</p>'+
+'<p>Sisa kuota: <b>'+(sisa>0?sisa+" dari "+SEM.kuota:"penuh, pendaftar baru masuk daftar tunggu")+'</b></p>'+
+'<div class="row"><button class="btn" onclick="go(\'form\')">Daftar sekarang</button><button class="btn sec" onclick="go(\'status\')">Cek status pendaftaran</button></div></div>'+
+'<p class="note">Satu tautan pendaftaran untuk semua kanal. Tiket QR dikirim ke surel setelah data lolos pemeriksaan.</p>'}
+function form(){return '<div class="card"><h2>Formulir pendaftaran</h2><form id="f" novalidate>'+
+'<label for="n">Nama lengkap</label><input id="n" autocomplete="name"><div class="err" id="en"></div>'+
+'<label for="s">Surel</label><input id="s" type="email" autocomplete="email"><div class="err" id="es"></div>'+
+'<label for="h">Nomor ponsel</label><input id="h" inputmode="numeric" autocomplete="tel"><div class="err" id="eh"></div>'+
+'<label for="i">Instansi atau NIM</label><input id="i"><div class="err" id="ei"></div>'+
+'<div id="fm"></div><div class="row" style="margin-top:14px"><button class="btn" type="submit">Kirim pendaftaran</button><button class="btn sec" type="button" onclick="go(\'home\')">Kembali</button></div></form></div>'}
+function submitForm(ev){ev.preventDefault();var v=function(k){return $("#"+k).value.trim()},ok=true;
+var m={n:["en",!v("n")?"Nama wajib diisi.":""],s:["es",!/^\S+@\S+\.\S+$/.test(v("s"))?"Isi surel dengan format nama@domain.":""],
+h:["eh",!/^[0-9]{9,14}$/.test(v("h"))?"Nomor ponsel 9 sampai 14 angka, tanpa spasi.":""],i:["ei",!v("i")?"Instansi atau NIM wajib diisi.":""]};
+for(var k in m){$("#"+m[k][0]).textContent=m[k][1];if(m[k][1])ok=false}
+if(!ok)return;
+if(DB.ps.some(function(p){return p.surel.toLowerCase()===v("s").toLowerCase()})){$("#fm").innerHTML='<div class="msg er">Surel ini sudah terdaftar. Pakai menu Cek status untuk melihat tiket Anda.</div>';return}
+var id="PSR-"+String(DB.ps.length+1).padStart(3,"0"),w=terisi()>=SEM.kuota;
+cur={id:id,nama:v("n"),surel:v("s"),hp:v("h"),inst:v("i"),st:w?"Tunggu":"Terdaftar",sert:null};DB.ps.push(cur);go("tiket")}
+function tiket(){var p=cur;
+return '<div class="card"><h2>'+(p.st==="Tunggu"?"Anda masuk daftar tunggu":"Pendaftaran berhasil")+'</h2>'+
+(p.st==="Tunggu"?'<div class="msg wn">Kuota penuh. Kami akan mengirim tiket bila ada kursi kosong.</div>':'<div class="msg ok">E-tiket sudah dikirim ke '+e(p.surel)+'.</div>')+
+'<div class="row" style="align-items:center">'+(p.st==="Tunggu"?'':qr(p.id))+'<div><b>'+e(p.nama)+'</b><br>ID peserta: '+p.id+'<br>'+badge(p.st)+'</div></div>'+
+'<div class="row" style="margin-top:14px"><button class="btn" onclick="go(\'status\')">Lihat status</button><button class="btn sec" onclick="go(\'home\')">Ke beranda</button></div></div>'}
+function status(){var p=out&&out.id?out:null;
+var h='<div class="card"><h2>Cek status pendaftaran</h2><label for="q">Surel terdaftar</label><div class="row"><input id="q" style="flex:1;min-width:200px" value="'+(p?e(p.surel):(cur?e(cur.surel):""))+'"><button class="btn" id="cq">Cek status</button></div><div id="qe" class="err"></div></div>';
+if(p){var s=p.st==="Hadir"||p.sert,c=!!p.sert;
+h+='<div class="card"><b>'+e(p.nama)+'</b> '+badge(p.st)+'<div class="steps"><div class="on">Terdaftar</div><div class="'+(s?"on":"")+'">Hadir</div><div class="'+(c?"on":"")+'">Sertifikat tersedia</div></div>'+
+(p.st==="Tunggu"?'<div class="msg wn">Anda masih di daftar tunggu.</div>':(c?'<button class="btn" id="dl">Unduh sertifikat</button>':'<p class="mu">Sertifikat terbit setelah panitia menyetujui, khusus peserta yang hadir.</p>'))+
+(p.st!=="Tunggu"?'<div style="margin-top:12px">'+qr(p.id)+'<div class="mu">Tunjukkan QR ini di meja registrasi.</div></div>':'')+'</div>'}
+if(out==="none")h+='<div class="msg er">Surel tidak ditemukan. Periksa penulisan atau daftar dulu.</div>';
+if(out&&out.cert)h+='<div class="cert"><div class="mu">Sertifikat Kehadiran</div><h2>'+e(out.nama)+'</h2><div>telah mengikuti '+SEM.nama+'</div><div class="mu">Nomor: SRT/2026/'+out.id.slice(4)+'</div><div style="margin-top:10px">Ketua Panitia (tanda tangan digital)</div></div>';
+return h}
+function bindStatus(){var b=$("#cq");if(b)b.onclick=function(){var q=$("#q").value.trim().toLowerCase();if(!q){$("#qe").textContent="Isi surel terlebih dahulu.";return}
+var p=DB.ps.filter(function(x){return x.surel.toLowerCase()===q})[0];out=p||"none";draw()};
+var d=$("#dl");if(d)d.onclick=function(){out.cert=true;draw()}}
+function panitia(){if(!role)return '<div class="card"><h2>Masuk sebagai panitia</h2><p class="mu">Demo: pilih peran. Menu yang tampil mengikuti hak akses tiap peran.</p><label for="r">Peran</label><select id="r"><option>Panitia Pendaftaran</option><option>Panitia Registrasi</option><option>Panitia Sertifikat</option><option>Ketua Panitia</option></select><div style="margin-top:14px"><button class="btn" id="lg">Masuk</button></div></div>';
+var T=[["rekap","Rekap"]];if(role==="Panitia Registrasi")T.push(["cek","Check-in"]);if(role==="Ketua Panitia")T.push(["tmp","Template dan TTD"]);if(role==="Panitia Sertifikat")T.push(["ser","Penerbitan sertifikat"]);
+var h='<div class="row" style="justify-content:space-between;align-items:center;margin-bottom:10px"><b>'+role+'</b><button class="btn sec" id="lo">Keluar</button></div><div class="tabs">'+T.map(function(t){return '<button class="'+(tab===t[0]?"on":"")+'" data-t="'+t[0]+'">'+t[1]+'</button>'}).join("")+'</div>';
+return h+({rekap:rekap,cek:cek,tmp:tmp,ser:ser}[tab]||rekap)()}
+function rekap(){var hd=DB.ps.filter(function(p){return p.st==="Hadir"}).length,tg=DB.ps.filter(function(p){return p.st==="Tunggu"}).length,sr=DB.ps.filter(function(p){return p.sert}).length;
+return '<div class="stats"><div class="stat"><b>'+terisi()+'/'+SEM.kuota+'</b>Pendaftar</div><div class="stat"><b>'+hd+'</b>Hadir</div><div class="stat"><b>'+tg+'</b>Daftar tunggu</div><div class="stat"><b>'+sr+'</b>Sertifikat terbit</div></div>'+
+'<div class="card wrap"><table><tr><th>ID</th><th>Nama</th><th>Status</th><th>Sertifikat</th></tr>'+DB.ps.map(function(p){return '<tr><td>'+p.id+'</td><td>'+e(p.nama)+'</td><td>'+badge(p.st)+'</td><td>'+(p.sert||"-")+'</td></tr>'}).join("")+'</table></div>'}
+function cek(){return '<div class="card"><h2>Check-in peserta</h2><p class="mu">Demo: pilih peserta untuk mensimulasikan hasil scan QR.</p><label for="c">Peserta (hasil scan)</label><select id="c">'+DB.ps.filter(function(p){return p.st!=="Tunggu"}).map(function(p){return '<option value="'+p.id+'">'+p.id+' - '+e(p.nama)+'</option>'}).join("")+'</select><div style="margin-top:12px"><button class="btn" id="sc">Scan QR</button></div>'+(out&&out.m?'<div class="msg '+out.k+'">'+out.m+'</div>':'')+
+'</div><div class="card"><h2>Daftar di tempat</h2><label for="dn">Nama</label><input id="dn"><label for="ds">Surel</label><input id="ds" type="email"><div style="margin-top:12px"><button class="btn sec" id="dt">Daftarkan dan check-in</button></div>'+(out&&out.m2?'<div class="msg '+out.k2+'">'+out.m2+'</div>':'')+'</div>'}
+function tmp(){return '<div class="card"><h2>Template dan tanda tangan digital</h2><p>Status: <b>'+(DB.tmpl?"Disetujui":"Belum disetujui")+'</b></p><p class="mu">Sertifikat hanya bisa terbit setelah template disetujui Ketua.</p><button class="btn" id="tm" '+(DB.tmpl?"disabled":"")+'>Setujui template dan TTD</button></div>'}
+function ser(){var hd=DB.ps.filter(function(p){return p.st==="Hadir"});
+return '<div class="card"><h2>Penerbitan sertifikat</h2><p>Peserta hadir: <b>'+hd.length+'</b> orang. Template: <b>'+(DB.tmpl?"siap":"belum disetujui Ketua")+'</b></p>'+
+(DB.tmpl?'':'<div class="msg wn">Minta Ketua Panitia menyetujui template lebih dulu.</div>')+
+'<button class="btn" id="is" '+(!DB.tmpl||DB.issued||!hd.length?"disabled":"")+'>Setujui penerbitan</button>'+(out&&out.m?'<div class="msg ok">'+out.m+'</div>':'')+'</div>'}
+function bindPanitia(){var lg=$("#lg");if(lg)lg.onclick=function(){role=$("#r").value;tab="rekap";out="";draw()};
+var lo=$("#lo");if(lo)lo.onclick=function(){role=null;out="";draw()};
+document.querySelectorAll("[data-t]").forEach(function(b){b.onclick=function(){tab=b.dataset.t;out="";draw()}});
+var sc=$("#sc");if(sc)sc.onclick=function(){var p=DB.ps.filter(function(x){return x.id===$("#c").value})[0];
+out=p.st==="Hadir"?{m:"QR sudah pernah dipindai. "+e(p.nama)+" tercatat hadir, tidak dicatat dua kali.",k:"wn"}:(p.st="Hadir",{m:"Berhasil. "+e(p.nama)+" tercatat hadir.",k:"ok"});draw()};
+var dt=$("#dt");if(dt)dt.onclick=function(){var n=$("#dn").value.trim(),s=$("#ds").value.trim();
+if(!n||!/^\S+@\S+\.\S+$/.test(s)){out={m2:"Isi nama dan surel dengan benar.",k2:"er"}}
+else if(DB.ps.some(function(p){return p.surel.toLowerCase()===s.toLowerCase()})){out={m2:"Surel sudah terdaftar. Gunakan Scan QR.",k2:"er"}}
+else{DB.ps.push({id:"PSR-"+String(DB.ps.length+1).padStart(3,"0"),nama:n,surel:s,hp:"-",inst:"-",st:"Hadir",sert:null});out={m2:"Peserta didaftarkan dan tercatat hadir.",k2:"ok"}}draw()};
+var tm=$("#tm");if(tm)tm.onclick=function(){DB.tmpl=true;draw()};
+var is=$("#is");if(is)is.onclick=function(){var n=0;DB.ps.forEach(function(p){if(p.st==="Hadir"){p.sert="SRT/2026/"+p.id.slice(4);n++}});DB.issued=true;out={m:n+" sertifikat terbit dan dikirim lewat surel."};draw()}}
+function draw(){$("#m-p").className=mode==="p"?"on":"";$("#m-k").className=mode==="k"?"on":"";
+var a=$("#app");a.innerHTML=mode==="k"?panitia():({home:home,form:form,tiket:tiket,status:status}[view])();
+if(mode==="p"){var f=$("#f");if(f)f.onsubmit=submitForm;bindStatus()}else bindPanitia();window.scrollTo(0,0)}
+$("#m-p").onclick=function(){mode="p";out="";draw()};$("#m-k").onclick=function(){mode="k";out="";draw()};
+draw();
+</script></body></html>
